@@ -13,7 +13,7 @@ db.once('open', () => { console.log('Connected to MongoDB') });
 
 
 app.get('/', (req, res) => {
-    res.send('No route found');
+    res.send('Hello world');
 })
 
 app.listen(port, () => {
