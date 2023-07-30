@@ -1,21 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const userRouter = require('./routes/userRoutes');
+const diaryRouter = require('./routes/diaryRoutes');
 const app = express();
 const port = 8000;
 
-mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true }
-.then(() => console.log('Connected to MongoDB'))
-.catch(error => console.error('Error connecting to MongoDB', error)));
+app.use(express.json());
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => { console.log('Connected to MongoDB') });
-
+app.use("/users", userRouter);
+app.use("/diary", diaryRouter);
 
 app.get('/', (req, res) => {
-    res.send('Hello world');
+  res.send('Hello world');
 })
 
-app.listen(port, () => {
+const uri = "mongodb+srv://muhasink444:musi1022@cluster0.78yds4w.mongodb.net/diary"
+
+mongoose.connect(uri).then(()=>{
+  app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
+})
+})
+.catch((error)=>{
+  console.log(error);
 })
